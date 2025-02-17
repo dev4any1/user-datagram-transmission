@@ -16,9 +16,9 @@ Communication Methods:
 
 ```mermaid
 graph TD;
-    Producer---Consumer1;
+    Producer--oConsumer1;
     Producer-->Consumer2;
-    Producer---Consumer3;
+    Producer--oConsumer3;
 ```
 
 This method utilising the broadcast address (255.255.255.255) to distribute messages among multiple receivers in a competitive manner.
