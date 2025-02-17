@@ -10,13 +10,19 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class Broadcast {
-	public static class MulticastSender implements Closeable{
+/**
+ * A UDP Publish-Subscribe Channel implementation
+ * https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html
+ */
+public class UDPBroadcast {
+
+	public static class MulticastPublisher implements Closeable{
+
 		private MulticastSocket socket;
 		private InetAddress group;
 		private int port;
 
-		public MulticastSender(String groupAddress, int port) throws Exception {
+		public MulticastPublisher(String groupAddress, int port) throws Exception {
 			this.group = InetAddress.getByName(groupAddress);
 			this.port = port;
 			this.socket = new MulticastSocket();
@@ -32,22 +38,24 @@ public class Broadcast {
 		}
 	}
 
-	public static class MulticastReceiver implements Closeable{
+	public static class MulticastSubscriber implements Closeable{
 		private MulticastSocket socket;
 		private InetAddress group;
 		private int port;
 		private NetworkInterface networkInterface;
-
-		public MulticastReceiver(String groupAddress, int port) throws Exception {
+		private int bufferSize;
+	
+		public MulticastSubscriber(String groupAddress, int port, int bufferSize) throws Exception {
 			this.group = InetAddress.getByName(groupAddress);
 			this.port = port;
 			this.socket = new MulticastSocket(port);
 			this.networkInterface = getNetworkInterface();
+			this.bufferSize = bufferSize;
 			socket.joinGroup(new InetSocketAddress(group, port), networkInterface);
 		}
 
 		public String receive() throws Exception {
-			byte[] buffer = new byte[256];
+			byte[] buffer = new byte[bufferSize];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 			socket.receive(packet);
 			return new String(packet.getData(), 0, packet.getLength());

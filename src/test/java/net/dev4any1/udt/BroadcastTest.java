@@ -1,54 +1,66 @@
 package net.dev4any1.udt;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import net.dev4any1.udt.Balancer.BroadcastReceiver;
-import net.dev4any1.udt.Balancer.BroadcastSender;
+import net.dev4any1.udt.UDPBroadcast.MulticastPublisher;
+import net.dev4any1.udt.UDPBroadcast.MulticastSubscriber;
+import net.dev4any1.udt.utils.Log;
 
 public class BroadcastTest {
+	private static final String MULTICAST_ADDR = "230.0.0.0";
+	private static final int PORT = 4446;
+	private static final String MSG = "Broadcast ";
+	private static final int COUNT = 10000;
+	private MulticastPublisher sender;
+	private List<MulticastSubscriber> receivers;
+	private long startTime = 0;
 
-	private static final String MSG = "Broadcast message";
-	private BroadcastSender sender;
-	private BroadcastReceiver receiver;
-
-	@BeforeEach
-	public void init() throws Exception {
-		sender = new BroadcastSender(4446);
-		receiver = new BroadcastReceiver(4446);
-	}
-
-	private Runnable testBroadcastReceiver = new Runnable() {
+	private Runnable testMulticastReceiver = new Runnable() {
 		@Override
 		public void run() {
-			long now = System.currentTimeMillis();
-			 while (System.currentTimeMillis() - now < 200) {
-				try {
-					assertTrue(receiver.receive().startsWith(MSG));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			try {
+				MulticastSubscriber receiver = new MulticastSubscriber(MULTICAST_ADDR, PORT, 512);
+				receivers.add(receiver);
+				int msgsCount = 0;
+				do {
+					assertEquals(MSG, receiver.receive());
+				} while (++msgsCount != COUNT);
+				long took = System.currentTimeMillis() - startTime;
+				Log.info(receiver, COUNT + " messages received in " + took + " ms. Rate: " + COUNT / took + " msg./ms.");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	};
 
+	@BeforeEach
+	public void init() throws Exception {
+		sender = new MulticastPublisher(MULTICAST_ADDR, PORT);
+		receivers = new LinkedList<MulticastSubscriber>();
+	}
+
 	@Test
-	public void testLoadBalancedBroadcast() throws Exception {
-		new Thread(testBroadcastReceiver).start();
-		new Thread(testBroadcastReceiver).start();
-		new Thread(testBroadcastReceiver).start();
-		Thread.sleep(200);
-		for (int i = 1; i <= 5; i++) {
-			sender.send(MSG + i);
+	public void testBroadcastMulticast() throws Exception {
+		new Thread(testMulticastReceiver).start();
+		new Thread(testMulticastReceiver).start();
+		new Thread(testMulticastReceiver).start();
+		Thread.sleep(100);
+		startTime = System.currentTimeMillis();
+		for (int i = 1; i <= COUNT; i++) {
+			sender.send(MSG);
 		}
 	}
 
 	@AfterEach
 	public void close() throws InterruptedException {
 		sender.close();
-		receiver.close();
+		receivers.forEach(r -> r.close());
 	}
 }

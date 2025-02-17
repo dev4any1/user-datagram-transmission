@@ -5,13 +5,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+/**
+ * Point-to-Point Channel
+ * https://www.enterpriseintegrationpatterns.com/patterns/messaging/PointToPointChannel.html
+ */
 public class UDPUnicast {
-	public static class UDPSender implements Closeable {
+	public static class UDPProducer implements Closeable {
 		private DatagramSocket socket;
 		private InetAddress address;
 		private int port;
 
-		public UDPSender(String address, int port) throws Exception {
+		public UDPProducer(String address, int port) throws Exception {
 			this.address = InetAddress.getByName(address);
 			this.port = port;
 			this.socket = new DatagramSocket();
@@ -27,15 +31,17 @@ public class UDPUnicast {
 		}
 	}
 
-	public static class UDPReceiver implements Closeable {
+	public static class UDPConsumer implements Closeable {
 		private DatagramSocket socket;
+		private int bufferSize;
 
-		public UDPReceiver(int port) throws Exception {
+		public UDPConsumer(int port, int bufferSize) throws Exception {
 			this.socket = new DatagramSocket(port);
+			this.bufferSize = bufferSize;
 		}
 
 		public String receive() throws Exception {
-			byte[] buffer = new byte[256];
+			byte[] buffer = new byte[bufferSize];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 			socket.receive(packet);
 			return new String(packet.getData(), 0, packet.getLength());

@@ -8,6 +8,11 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Request-Reply Guaranteed Delivery
+ * https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
+ * https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedMessaging.html
+ */
 public class TCPChat {
 	public static class TCPClient implements Closeable{
 		private Socket socket;

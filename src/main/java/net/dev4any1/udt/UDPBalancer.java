@@ -5,21 +5,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class Balancer {
-	/**
-	 * Broadcasts is using 255.255.255.255 or the network's broadcast address, e.g.,
-	 * 192.168.1.255
-	 */
-	public static class BroadcastSender implements Closeable{
+/**
+ * Implementation of CompetingConsumers EIP 
+ * https://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html
+ */
+public class UDPBalancer {
+
+	public static class UDPProducer implements Closeable {
+
 		private DatagramSocket socket;
 		private InetAddress broadcastAddress;
 		private int port;
 
-		public BroadcastSender(int port) throws Exception {
+		public UDPProducer(int port, String netAddressName) throws Exception {
 			this.port = port;
 			this.socket = new DatagramSocket();
-			this.socket.setBroadcast(true);
-			this.broadcastAddress = InetAddress.getByName("255.255.255.255");
+			this.broadcastAddress = InetAddress.getByName(netAddressName);
 		}
 
 		public void send(String message) throws Exception {
@@ -33,27 +34,25 @@ public class Balancer {
 		}
 	}
 
-	public static class BroadcastReceiver implements Closeable{
+	public static class UDPCompetingConsumer implements Closeable {
 
 		private DatagramSocket socket;
+		private int bufferSize;
 
-		public BroadcastReceiver(int port) throws Exception {
+		public UDPCompetingConsumer(int port, int bufferSize) throws Exception {
 			this.socket = new DatagramSocket(port);
+			this.bufferSize = bufferSize;
 		}
 
 		public String receive() throws Exception {
-			byte[] buffer = new byte[256];
+			byte[] buffer = new byte[bufferSize];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-			socket.receive(packet); // Wait for a message
+			socket.receive(packet);
 			return new String(packet.getData(), 0, packet.getLength());
 		}
 
 		public void close() {
 	        socket.close();
-		}
-		
-		public boolean isClosed(){
-			return socket.isClosed();
 		}
 	}
 }
