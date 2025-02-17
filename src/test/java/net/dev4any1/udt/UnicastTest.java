@@ -27,7 +27,7 @@ public class UnicastTest {
 					assertEquals(MSG, receiver.receive());
 				} while (++count != COUNT);
 				long took = System.currentTimeMillis() - startTime;
-				Log.info(receiver, "received " + count + " messages in " + took + " ms. Rate: " + COUNT / took + " msg./ms.");
+				Log.info(receiver, "messages received", took, count);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

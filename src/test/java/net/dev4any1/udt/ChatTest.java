@@ -48,7 +48,7 @@ public class ChatTest {
 			assertEquals(MSG + "reply", client.receive());
 		}
 		long took = System.currentTimeMillis() - startTime;
-		Log.info(client, COUNT + " requests processed at " + took + " ms. Rate: " + COUNT / took + " msg./ms.");
+		Log.info(client, "requests processed", took, COUNT);
 
 	}
 

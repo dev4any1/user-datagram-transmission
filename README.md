@@ -1,47 +1,62 @@
 # Java UDP and TCP Communication Cook-book
 
-> Overview
+Overview
 
->> This repository provides a collection of Java socket programming examples for UDP and TCP communication.
+This repository provides a collection of Java socket programming examples for UDP and TCP communication.
 
->> It covers different types of network communication using DatagramSocket, MulticastSocket, ServerSocket, and Socket. 
+It covers different types of network communication using DatagramSocket, MulticastSocket, ServerSocket, and Socket. 
 
->> Each implementation demonstrates practical usage of Java networking features.
+Each implementation demonstrates practical usage of Java networking features.
 
->> Communication Methods:
+Communication Methods:
 
->> # UDP Load balancing 
+# UDP Load balancing 
+
+`UDPBalancer.java:[#java.net.DatagramSocket #java.net.InetAddress]`
 
 ```mermaid
 graph TD;
-    UDPProducer-->UDPProducer1;
-    UDPProducer-->UDPProducer2;
-    UDPProducer-->UDPProducer3;
+    Producer---Consumer1;
+    Producer-->Consumer2;
+    Producer---Consumer3;
 ```
 
->>> `UDPBalancer.java uses java.net.DatagramSocket and java.net.InetAddress`
+This method utilising the broadcast address (255.255.255.255) to distribute messages among multiple receivers in a competitive manner.
 
->>> This method utilizes the broadcast address (255.255.255.255) to distribute messages among multiple receivers in a competitive manner.
+Key Features:
 
->>> Key Features:
+* Lightweight balancer of network load among multiple consumers.
 
->>> * Lightweight balancer of network load among multiple consumers.
+* Suitable for distributed systems requiring dynamic message handling.
 
->>> * Suitable for distributed systems requiring dynamic message handling.
+* Achieves load balancing by allowing multiple receivers to bind to the same port, with each message being handled by one receiver.
 
->>> * Achieves load balancing by allowing multiple receivers to bind to the same port, with each message being handled by one receiver.
+# UDP Broadcasting
 
->> 2. UDP Multicast
+`UDPBroadcast.java:[#java.net.MulticastSocket #java.net.NetworkInterface #java.net.DatagramSocket #java.net.InetAddress]`
 
->>> Usage: Uses MulticastSocket and NetworkInterface to send messages to a multicast group, ensuring only subscribed receivers get the message.
+```mermaid
+graph TD;
+    Producer-->Consumer1;
+    Producer-->Consumer2;
+    Producer-->Consumer3;
+```
 
->>> Key Features:
+Useing MulticastSocket and NetworkInterface to send messages to a multicast group, ensuring only subscribed receivers get the message.
+
+Key Features:
 
 * Allows selective message delivery using a multicast group address.
 
 * Suitable for real-time data distribution, streaming, and event notifications.
 
-3. TCP Communication (TCPChat.java)
+# TCP Communication (TCPChat.java)
+
+```mermaid
+graph TD;
+    Server-->Client;
+    Client-->Server;
+```
 
 Classes: TCPServer & TCPClient
 
@@ -53,7 +68,12 @@ Provides reliable, ordered, and error-checked message delivery.
 
 Ideal for chat applications, remote commands, and data transmission.
 
-4. UDP Unicast (UDPUnicast.java)
+# UDP Uni-cast (UDPUnicast.java)
+
+```mermaid
+graph TD;
+    Producer-->Consumer;
+```
 
 Classes: UDPSender & UDPReceiver
 

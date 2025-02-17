@@ -11,7 +11,7 @@ import net.dev4any1.udt.UDPBalancer.UDPProducer;
 import net.dev4any1.udt.utils.Log;
 
 public class BalancerTest {
-
+	private static final String BROADCAST_ADDR = "255.255.255.255";
 	private static final String MSG = "Competition message";
 	private static final int COUNT = 10000;
 	private UDPProducer sender;
@@ -20,8 +20,7 @@ public class BalancerTest {
 
 	@BeforeEach
 	public void init() throws Exception {
-		// using broadcast address
-		sender = new UDPProducer(4446, "255.255.255.255");
+		sender = new UDPProducer(4446, BROADCAST_ADDR);
 		receiver = new UDPCompetingConsumer(4446, 512);
 	}
 
@@ -37,8 +36,7 @@ public class BalancerTest {
 				e.printStackTrace();
 			}
 			long took = System.currentTimeMillis() - startTime;
-			Log.info(receiver, COUNT + " messages received in " + took + " ms. Rate: "
-					+ COUNT / took + " msg./ms.");
+			Log.info(receiver, "messages received" , took, COUNT);
 		}
 	};
 

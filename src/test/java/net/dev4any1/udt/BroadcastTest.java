@@ -33,7 +33,7 @@ public class BroadcastTest {
 					assertEquals(MSG, receiver.receive());
 				} while (++msgsCount != COUNT);
 				long took = System.currentTimeMillis() - startTime;
-				Log.info(receiver, COUNT + " messages received in " + took + " ms. Rate: " + COUNT / took + " msg./ms.");
+				Log.info(receiver, "messages received", took, COUNT);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
