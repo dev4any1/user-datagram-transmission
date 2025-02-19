@@ -5,10 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-/**
- * Point-to-Point Channel
- * https://www.enterpriseintegrationpatterns.com/patterns/messaging/PointToPointChannel.html
- */
 public class UDPUnicast {
 	public static class UDPProducer implements Closeable {
 		private DatagramSocket socket;

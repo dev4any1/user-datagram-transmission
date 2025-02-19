@@ -5,10 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-/**
- * Implementation of CompetingConsumers EIP 
- * https://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html
- */
 public class UDPBalancer {
 
 	public static class UDPProducer implements Closeable {

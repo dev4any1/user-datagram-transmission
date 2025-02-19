@@ -10,10 +10,6 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-/**
- * A UDP Publish-Subscribe Channel implementation
- * https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html
- */
 public class UDPBroadcast {
 
 	public static class MulticastPublisher implements Closeable{

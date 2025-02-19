@@ -9,9 +9,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * Request-Reply Guaranteed Delivery
- * https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html
- * https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedMessaging.html
+ * Reliable TCP Client / Server show case
+ * 
+ * @see <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request-Reply</a>
+ * @see <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedMessaging.html">Guaranteed Delivery</a>
+ * 
+ * @author soulaway
  */
 public class TCPChat {
 	public static class TCPClient implements Closeable{
