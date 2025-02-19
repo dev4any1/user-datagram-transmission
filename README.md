@@ -15,9 +15,9 @@ Class: `UDPBalancer.java` Uses: `DatagramSocket, InetAddress, DatagramPacket` fr
 
 ```mermaid
 graph LR;
-    Producer--|Consumer1;
+    Producer--oConsumer1;
     Producer-->Consumer2;
-    Producer--|Consumer3;
+    Producer--oConsumer3;
 ```
 
 This approach distributes messages among multiple receivers competitively, instead of broadcasting to all recipients.
