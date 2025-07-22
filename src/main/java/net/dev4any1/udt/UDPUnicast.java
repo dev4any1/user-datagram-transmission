@@ -6,12 +6,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class UDPUnicast {
-	public static class UDPProducer implements Closeable {
+	
+	public static class UnicastProducer implements Closeable {
 		private DatagramSocket socket;
 		private InetAddress address;
 		private int port;
 
-		public UDPProducer(String address, int port) throws Exception {
+		public UnicastProducer(String address, int port) throws Exception {
 			this.address = InetAddress.getByName(address);
 			this.port = port;
 			this.socket = new DatagramSocket();
@@ -27,11 +28,11 @@ public class UDPUnicast {
 		}
 	}
 
-	public static class UDPConsumer implements Closeable {
+	public static class UnicastConsumer implements Closeable {
 		private DatagramSocket socket;
 		private int bufferSize;
 
-		public UDPConsumer(int port, int bufferSize) throws Exception {
+		public UnicastConsumer(int port, int bufferSize) throws Exception {
 			this.socket = new DatagramSocket(port);
 			this.bufferSize = bufferSize;
 		}

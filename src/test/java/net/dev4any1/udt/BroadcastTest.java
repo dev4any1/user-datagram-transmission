@@ -11,13 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import net.dev4any1.udt.UDPBroadcast.MulticastPublisher;
 import net.dev4any1.udt.UDPBroadcast.MulticastSubscriber;
-import net.dev4any1.udt.utils.Log;
+import net.dev4any1.udt.utils.TestOpts;
 
 public class BroadcastTest {
-	private static final String MULTICAST_ADDR = "230.0.0.0";
-	private static final int PORT = 4446;
-	private static final String MSG = "Broadcast ";
-	private static final int COUNT = 10000;
+
+	static final String MULTICAST_ADDR = "230.0.0.0";
+
 	private MulticastPublisher sender;
 	private List<MulticastSubscriber> receivers;
 	private long startTime = 0;
@@ -26,38 +25,35 @@ public class BroadcastTest {
 		@Override
 		public void run() {
 			try {
-				MulticastSubscriber receiver = new MulticastSubscriber(MULTICAST_ADDR, PORT, 512);
+				MulticastSubscriber receiver = new MulticastSubscriber(MULTICAST_ADDR, 4446, 512);
 				receivers.add(receiver);
 				int msgsCount = 0;
 				do {
-					assertEquals(MSG, receiver.receive());
-				} while (++msgsCount != COUNT);
+					assertEquals(TestOpts.MSG, receiver.receive());
+				} while (++msgsCount != TestOpts.COUNT);
 				long took = System.currentTimeMillis() - startTime;
-				Log.info(receiver, "messages received", took, COUNT);
+				TestOpts.info(receiver, "messages received", took, TestOpts.COUNT);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	};
-
 	@BeforeEach
 	public void init() throws Exception {
-		sender = new MulticastPublisher(MULTICAST_ADDR, PORT);
+		sender = new MulticastPublisher(MULTICAST_ADDR, 4446);
 		receivers = new LinkedList<MulticastSubscriber>();
 	}
-
 	@Test
-	public void testBroadcastMulticast() throws Exception {
+	public void test() throws Exception {
 		new Thread(testMulticastReceiver).start();
 		new Thread(testMulticastReceiver).start();
 		new Thread(testMulticastReceiver).start();
 		Thread.sleep(100);
 		startTime = System.currentTimeMillis();
-		for (int i = 1; i <= COUNT; i++) {
-			sender.send(MSG);
+		for (int i = 1; i <= TestOpts.COUNT; i++) {
+			sender.send(TestOpts.MSG);
 		}
 	}
-
 	@AfterEach
 	public void close() throws InterruptedException {
 		sender.close();

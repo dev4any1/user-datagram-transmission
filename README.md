@@ -1,10 +1,8 @@
 # Java UDP and TCP Communication Cook-book
 
-Overview
+This repository provides practical Java socket programming examples for UDP and TCP communication. 
 
-This repository provides a collection of Java socket programming examples for UDP and TCP communication.
-
-his repository provides practical Java socket programming examples for UDP and TCP communication. It showcases various networking techniques and Enterprise Integration Patterns (EIPs) such as Request-Reply, Guaranteed Delivery, Competing Consumers, Publish-Subscribe, and Point-to-Point communication.
+It demonstrating various networking techniques and Enterprise Integration Patterns (EIPs) such as Request-Reply, Guaranteed Delivery, Competing Consumers, Publish-Subscribe, and Point-to-Point communication.
 
 Each example is designed to be lightweight and includes simple load tests to demonstrate real-world usage.
 
@@ -137,14 +135,14 @@ user-datagram-transmission/
 
 # Notes
 
-* Ensure that correct port numbers and IP addresses are used.
+* Ensure that correct port numbers and IP addresses are used
 
-* UDP does not guarantee message delivery, whereas TCP provides reliability.
+* UDP does not guarantee message delivery, whereas TCP provides reliability
 
-* For multicast communication, use a valid multicast IP address (224.0.0.0 - 239.255.255.255).
+* For multi-cast communication, use a valid multi-cast IP address from range: [224.0.0.0 - 239.255.255.255]
 
 * Start receiver instances before sending messages to capture incoming data
 
 # License
 
-This project is open-source and available under the MIT License.
+This project is open-source and available under <a href="https://github.com/dev4any1/user-datagram-transmission/blob/master/LICENSE.md">this License.</a>

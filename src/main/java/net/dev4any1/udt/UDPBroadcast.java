@@ -12,7 +12,7 @@ import java.util.Enumeration;
 
 public class UDPBroadcast {
 
-	public static class MulticastPublisher implements Closeable{
+	public static class MulticastPublisher implements Closeable {
 
 		private MulticastSocket socket;
 		private InetAddress group;
@@ -34,7 +34,7 @@ public class UDPBroadcast {
 		}
 	}
 
-	public static class MulticastSubscriber implements Closeable{
+	public static class MulticastSubscriber implements Closeable {
 		private MulticastSocket socket;
 		private InetAddress group;
 		private int port;

@@ -11,18 +11,23 @@ import java.net.Socket;
 /**
  * Reliable TCP Client / Server show case
  * 
- * @see <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request-Reply</a>
- * @see <a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedMessaging.html">Guaranteed Delivery</a>
+ * @see <a href=
+ *      "https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request-Reply</a>
+ * @see <a href=
+ *      "https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedMessaging.html">Guaranteed
+ *      Delivery</a>
  * 
  * @author soulaway
  */
 public class TCPChat {
-	public static class TCPClient implements Closeable{
+
+	public static class ChatClient implements Closeable {
+
 		private Socket socket;
 		private PrintWriter out;
 		private BufferedReader in;
 
-		public TCPClient(String address, int port) throws Exception {
+		public ChatClient(String address, int port) throws Exception {
 			this.socket = new Socket(address, port);
 			this.out = new PrintWriter(socket.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -38,20 +43,21 @@ public class TCPChat {
 
 		public void close() {
 			try {
-			socket.close();
+				socket.close();
 			} catch (IOException e) {
 				System.err.print("IOException while closing TCPClient socket " + e.getMessage());
 			}
 		}
 	}
 
-	public static class TCPServer implements Closeable{
+	public static class ChatServer implements Closeable {
+
 		private ServerSocket serverSocket;
 		private Socket socket;
 		private PrintWriter out;
 		private BufferedReader in;
 
-		public TCPServer(int port) throws Exception {
+		public ChatServer(int port) throws Exception {
 			this.serverSocket = new ServerSocket(port);
 		}
 

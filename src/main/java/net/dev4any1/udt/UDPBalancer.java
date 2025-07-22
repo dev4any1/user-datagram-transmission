@@ -7,13 +7,13 @@ import java.net.InetAddress;
 
 public class UDPBalancer {
 
-	public static class UDPProducer implements Closeable {
+	public static class BalanceProducer implements Closeable {
 
 		private DatagramSocket socket;
 		private InetAddress broadcastAddress;
 		private int port;
 
-		public UDPProducer(int port, String netAddressName) throws Exception {
+		public BalanceProducer(int port, String netAddressName) throws Exception {
 			this.port = port;
 			this.socket = new DatagramSocket();
 			this.broadcastAddress = InetAddress.getByName(netAddressName);
@@ -30,12 +30,12 @@ public class UDPBalancer {
 		}
 	}
 
-	public static class UDPCompetingConsumer implements Closeable {
+	public static class CompetingConsumer implements Closeable {
 
 		private DatagramSocket socket;
 		private int bufferSize;
 
-		public UDPCompetingConsumer(int port, int bufferSize) throws Exception {
+		public CompetingConsumer(int port, int bufferSize) throws Exception {
 			this.socket = new DatagramSocket(port);
 			this.bufferSize = bufferSize;
 		}

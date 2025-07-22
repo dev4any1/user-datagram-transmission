@@ -2,7 +2,9 @@ package net.dev4any1.udt.utils;
 
 import java.util.Date;
 
-public class Log {
+public class TestOpts {
+	public static final String MSG = "test message";
+	public static final int COUNT = 10000;
 	public static void info(Object o, String message, long duration, int testCount) {
 		System.out.println(String.format("[%s] %s (%s) %d %s in %d ms. Rate: %d msg./ms.",
 				new Date(System.currentTimeMillis()).toString(), Thread.currentThread().getName(),
